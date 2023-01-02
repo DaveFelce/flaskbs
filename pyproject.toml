@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "flaskbs"
+version = "0.1.0"
+description = ""
+authors = ["David Felce <davefelce@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^2.2.2"
+python-dotenv = "^0.21.0"
+flask-sqlalchemy = "^3.0.2"
+flask-migrate = "^4.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
