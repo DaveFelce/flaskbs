@@ -4,6 +4,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from models.user import User
 
+from flaskbs.core.config import DevelopmentConfig
 from flaskbs.db import db
 
 migrate = Migrate()
@@ -20,7 +21,8 @@ def create_app(test_config=None):
         migrate.init_app(app, db)
     else:
         # load the instance config, if it exists, when not testing
-        app.config.from_object("flaskbs.core.config.DevelopmentConfig")
+        # app.config.from_object("flaskbs.core.config.DevelopmentConfig")
+        app.config.from_object(DevelopmentConfig())
         db.init_app(app)
         migrate.init_app(app, db)
 

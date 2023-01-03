@@ -1,5 +1,6 @@
 """Flask configuration variables."""
 from os import environ, path
+
 from dotenv import load_dotenv
 
 BASE_DIR = path.dirname(path.dirname(path.dirname(path.abspath(__file__))))
@@ -8,19 +9,26 @@ load_dotenv(env_file)
 
 
 class Config:
-    TESTING = False
-    DB_SERVER = "localhost"
-    """Set Flask configuration from .env file."""
-
     # General Config
     SECRET_KEY = environ.get("SECRET_KEY")
     FLASK_APP = environ.get("FLASK_APP")
     DEBUG = False
+    TESTING = False
 
     # Database
-    SQLALCHEMY_DATABASE_URI = environ.get("SQLALCHEMY_DATABASE_URI")
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: str = "5432"
+    POSTGRES_USER: str = "postgres"
+    POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD")
+    POSTGRES_DB: str = "flaskbs"
+    SQLALCHEMY_DATABASE_URI: str = ""
+
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        return (f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+               f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
 
 
 class DevelopmentConfig(Config):
@@ -30,5 +38,4 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
     DEBUG = True

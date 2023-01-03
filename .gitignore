@@ -6,4 +6,3 @@ __pycache__
 .DS_Store
 .mypy_cache
 .pytest_cache
-curltest
