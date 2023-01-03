@@ -1,0 +1,38 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.11"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry config virtualenvs.create false
+        poetry install
+    - name: Run checks
+      run: |
+        xenon --no-assert --max-average A --max-modules B --max-absolute B .
+        pylint flaskbs tests
+        black --check .
+        isort --check .
+        mypy .
+    - name: Run tests
+      run: |
+        pytest --verbose --cov flaskbs --cov-report term-missing

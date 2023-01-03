@@ -1,16 +1,18 @@
 import os
 
+from typing import Any
+
 from flask import Flask
 from flask_migrate import Migrate
-from models.user import User
 
 from flaskbs.core.config import DevelopmentConfig
 from flaskbs.db import db
+from models.user import User
 
 migrate = Migrate()
 
 
-def create_app(test_config=None):
+def create_app(test_config: dict | None = None) -> Flask:
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
@@ -34,7 +36,7 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route("/hello")
-    def hello():
+    def hello() -> Any:
         return "Hello, World!"
 
     return app
