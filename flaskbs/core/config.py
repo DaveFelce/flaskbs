@@ -21,14 +21,16 @@ class Config:
     POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: str = "5432"
     POSTGRES_USER: str = "postgres"
-    POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD")
+    POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD", "")
     POSTGRES_DB: str = "flaskbs"
     SQLALCHEMY_DATABASE_URI: str = ""
 
-    @property
-    def SQLALCHEMY_DATABASE_URI(self):
-        return (f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
-               f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
+    @property  # type: ignore [no-redef]
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        return (
+            f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}"
+            f"@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+        )
 
 
 class DevelopmentConfig(Config):
