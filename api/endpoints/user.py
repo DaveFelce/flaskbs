@@ -7,5 +7,5 @@ bp = Blueprint("user", __name__)
 
 @bp.route("/user/<name>", methods=("GET", "POST"))
 def user(name: str) -> Any:
-    if request.method == 'GET':
+    if request.method == "GET":
         return f"Hello, {name}"

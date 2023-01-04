@@ -2,6 +2,8 @@ from typing import Generator
 
 import pytest
 
+from flask import Flask
+from flask.testing import FlaskClient
 from sqlalchemy_utils import create_database, database_exists, drop_database
 
 from flaskbs import create_app
@@ -9,14 +11,14 @@ from flaskbs.db import db
 
 
 @pytest.fixture(scope="session")
-def app():
-    app = create_app(testing=True)
+def app() -> Generator:
+    test_app = create_app(testing=True)
 
-    yield app
+    yield test_app
 
 
 @pytest.fixture(scope="session", autouse=True)
-def setup_db(app) -> Generator:
+def setup_db(app: Flask) -> Generator:
     with app.app_context():
         if db.engine.url.database != "flaskbs_test":
             raise ValueError(f"Unsafe attempt to recreate database: {db.engine.url.database}")
@@ -32,7 +34,7 @@ def setup_db(app) -> Generator:
 
 
 @pytest.fixture(scope="function", autouse=True)
-def setup_tables(app) -> Generator:
+def setup_tables(app: Flask) -> Generator:
     """
     autouse set to True so will be run before each test function, to set up tables
     and tear them down after each test runs
@@ -48,10 +50,5 @@ def setup_tables(app) -> Generator:
 
 
 @pytest.fixture
-def client(app):
+def client(app: Flask) -> FlaskClient:
     return app.test_client()
-
-
-@pytest.fixture
-def runner(app):
-    return app.test_cli_runner()

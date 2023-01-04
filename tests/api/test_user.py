@@ -1,3 +1,3 @@
-def test_user(client):
+def test_user(client) -> None:
     response = client.get("/user/hank")
     assert response.data == b"Hello, hank"
