@@ -5,28 +5,28 @@ from typing import Any
 from flask import Flask
 from flask_migrate import Migrate
 
-from flaskbs.core.config import DevelopmentConfig
+from api.endpoints import user
+from flaskbs.core.config import DevelopmentConfig, TestingConfig
 from flaskbs.db import db
 from models.user import User
 
 migrate = Migrate()
 
 
-def create_app(test_config: dict | None = None) -> Flask:
-    # create and configure the app
+def create_app(testing: bool = False) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
 
-    if test_config:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-        db.init_app(app)
-        migrate.init_app(app, db)
+    if testing:
+        app.config.from_object(TestingConfig())
     else:
-        # load the instance config, if it exists, when not testing
-        # app.config.from_object("flaskbs.core.config.DevelopmentConfig")
         app.config.from_object(DevelopmentConfig())
-        db.init_app(app)
-        migrate.init_app(app, db)
+
+    # database
+    db.init_app(app)
+    migrate.init_app(app, db)
+
+    # blueprints
+    app.register_blueprint(user.bp)
 
     # ensure the instance folder exists
     try:
@@ -34,9 +34,8 @@ def create_app(test_config: dict | None = None) -> Flask:
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route("/hello")
-    def hello() -> Any:
-        return "Hello, World!"
+    @app.route("/hello/<name>")
+    def hello(name: str) -> Any:
+        return f"Hello, {name}"
 
     return app

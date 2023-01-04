@@ -41,3 +41,4 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True
+    POSTGRES_DB: str = "flaskbs_test"
