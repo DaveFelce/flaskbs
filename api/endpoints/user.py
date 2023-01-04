@@ -1,11 +1,14 @@
 from typing import Any
 
-from flask import Blueprint, request
+from flask import Blueprint
+from flask_pydantic import validate
+
+from schemas.user import UserQueryResponseSchema
 
 bp = Blueprint("user", __name__)
 
 
-@bp.route("/user/<name>", methods=("GET", "POST"))
-def user(name: str) -> Any:
-    if request.method == "GET":
-        return f"Hello, {name}"
+@bp.route("/user/<username>", methods=["GET"])
+@validate()
+def user(username: str) -> Any:
+    return UserQueryResponseSchema(greeting=f"hello, {username}")
