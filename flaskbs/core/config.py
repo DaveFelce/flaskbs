@@ -18,7 +18,7 @@ class Config:
     # Database
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    POSTGRES_HOST: str = "localhost"
+    POSTGRES_HOST: str = environ.get("POSTGRES_HOST", "localhost")
     POSTGRES_PORT: str = "5432"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = environ.get("POSTGRES_PASSWORD", "")
