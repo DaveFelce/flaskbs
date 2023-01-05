@@ -14,6 +14,7 @@ flask-migrate = "^4.0.0"
 psycopg2-binary = "^2.9.5"
 flask-pydantic = "^0.11.0"
 sqlalchemy-utils = "^0.39.0"
+gunicorn = "^20.1.0"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^0.991"
