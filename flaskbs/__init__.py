@@ -33,8 +33,4 @@ def create_app(testing: bool = False) -> Flask:
     except OSError:
         pass
 
-    @app.route("/hello/<name>")
-    def hello(name: str) -> Any:
-        return f"Hello, {name}"
-
     return app
