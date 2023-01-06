@@ -4,7 +4,7 @@ from flask import Blueprint
 from flask_pydantic import validate
 from flask_restful import Api, Resource
 
-from schemas.user import UserQueryResponseSchema
+from flaskbs.schemas.user import UserQueryResponseSchema
 
 bp = Blueprint("user", __name__)
 api = Api(bp)

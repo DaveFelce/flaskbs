@@ -5,10 +5,9 @@ from typing import Any
 from flask import Flask
 from flask_migrate import Migrate
 
-from api.endpoints import user
+from flaskbs.api.endpoints import user
 from flaskbs.core.config import DevelopmentConfig, TestingConfig
 from flaskbs.db import db
-from models.user import User
 
 migrate = Migrate()
 
