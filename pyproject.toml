@@ -72,5 +72,6 @@ disable = [
     "consider-using-f-string",
     "duplicate-code", # pylint definition of "duplicate" is way too loose (ex: fastapi route definitions are flagged).
     "invalid-name",
+    "no-name-in-module",
 ]
 good-names=["k", "v", "i", "q", "fn", "ex", "dt", "tz"]

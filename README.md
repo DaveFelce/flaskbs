@@ -9,10 +9,9 @@
 
 ### api run
 
-- `poetry run python wsgi.py`
+- `poetry run python -m flask run --host=0.0.0.0`
 
 ## Docker
 
-- docker build -t flaskbs .
-- docker run -d --name flaskbs_container -p 5001:5001 flaskbs
+- docker-compose -f .docker/development/docker-compose.yml up
 
