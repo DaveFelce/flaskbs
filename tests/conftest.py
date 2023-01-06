@@ -11,15 +11,15 @@ from flaskbs.db import db
 
 
 @pytest.fixture(scope="session")
-def app() -> Generator:
-    test_app = create_app(testing=True)
+def test_app() -> Flask:
+    app = create_app(testing=True)
 
-    yield test_app
+    return app
 
 
 @pytest.fixture(scope="session", autouse=True)
-def setup_db(app: Flask) -> Generator:
-    with app.app_context():
+def setup_db(test_app: Flask) -> Generator:  # pylint: disable=redefined-outer-name
+    with test_app.app_context():
         if db.engine.url.database != "flaskbs_test":
             raise ValueError(f"Unsafe attempt to recreate database: {db.engine.url.database}")
 
@@ -34,21 +34,21 @@ def setup_db(app: Flask) -> Generator:
 
 
 @pytest.fixture(scope="function", autouse=True)
-def setup_tables(app: Flask) -> Generator:
+def setup_tables(test_app: Flask) -> Generator:  # pylint: disable=redefined-outer-name
     """
     autouse set to True so will be run before each test function, to set up tables
     and tear them down after each test runs
     """
-    with app.app_context():
+    with test_app.app_context():
         db.metadata.create_all(bind=db.engine)
 
     yield
 
     # # Drop all tables after each test
-    with app.app_context():
+    with test_app.app_context():
         db.metadata.drop_all(bind=db.engine)
 
 
-@pytest.fixture
-def client(app: Flask) -> FlaskClient:
-    return app.test_client()
+@pytest.fixture()
+def client(test_app: Flask) -> FlaskClient:  # pylint: disable=redefined-outer-name
+    return test_app.test_client()
