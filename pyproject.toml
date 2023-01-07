@@ -56,6 +56,7 @@ plugins = [
 ]
 
 [tool.pylint.MASTER]
+ignored-classes = "scoped_session"
 load-plugins=[
     "pylint_pytest",
     "pylint.extensions.mccabe"
