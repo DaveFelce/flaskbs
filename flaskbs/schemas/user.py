@@ -1,5 +1,10 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
-class UserQueryResponseSchema(BaseModel):
+class GetUserResponseSchema(BaseModel):
     greeting: str
+
+
+class PostUserBodySchema(BaseModel):
+    username: str
+    email: EmailStr
