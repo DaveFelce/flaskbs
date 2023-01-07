@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     POSTGRES_PORT: str = "5432"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = ""
-    POSTGRES_DB: str = "polaris"
+    POSTGRES_DB: str = "flaskbs"
     SQLALCHEMY_DATABASE_URI: str = ""
 
     @validator("SQLALCHEMY_DATABASE_URI", pre=True)
