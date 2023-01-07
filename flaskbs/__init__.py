@@ -1,6 +1,6 @@
-import os
+from http import HTTPStatus
 
-from flask import Flask
+from flask import Flask, Response, jsonify
 from flask_migrate import Migrate
 
 from flaskbs.api.endpoints import user
@@ -25,10 +25,9 @@ def create_app(testing: bool = False) -> Flask:
     # blueprints
     app.register_blueprint(user.bp)
 
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
+    # custom error handlers
+    @app.errorhandler(HTTPStatus.NOT_FOUND)
+    def resource_not_found(e: Exception) -> tuple[Response, HTTPStatus]:
+        return jsonify(error=str(e)), HTTPStatus.NOT_FOUND
 
     return app

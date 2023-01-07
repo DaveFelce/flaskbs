@@ -1,6 +1,7 @@
+from http import HTTPStatus
 from typing import Any
 
-from flask import Blueprint
+from flask import Blueprint, abort
 from flask_pydantic import validate
 from flask_restful import Api, Resource
 from sqlalchemy.future import select
@@ -17,6 +18,9 @@ class UserGetResource(Resource):
     @validate()
     def get(self, username: str) -> Any:
         user_email = db.session.execute(select(User.email).where(User.username == username)).scalar_one_or_none()
+
+        if user_email is None:
+            abort(HTTPStatus.NOT_FOUND, description="User not found")
 
         return GetUserResponseSchema(greeting=f"hello, {user_email}")
 
