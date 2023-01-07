@@ -10,8 +10,15 @@ from flaskbs.models import User
 def test_get_user(client: FlaskClient, user: User) -> None:
     resp = client.get(f"/user/{user.username}")
 
-    assert resp
+    assert resp.status_code == HTTPStatus.OK
     assert resp.json == {"greeting": f"hello, {user.email}"}
+
+
+def test_get_bad_user(client: FlaskClient, user: User) -> None:
+    resp = client.get("/user/norealuser")
+
+    assert resp.status_code == HTTPStatus.NOT_FOUND
+    assert resp.json == {"message": "User not found"}
 
 
 def test_post_user(client: FlaskClient, db_session: scoped_session) -> None:
