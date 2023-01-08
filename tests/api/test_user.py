@@ -38,3 +38,17 @@ def test_post_user(client: FlaskClient, db_session: scoped_session) -> None:
     assert user.email == email
 
     assert resp.status_code == HTTPStatus.OK
+
+
+def test_post_duplicate_user(client: FlaskClient, db_session: scoped_session, user: User) -> None:
+    payload = {
+        "username": user.username,
+        "email": user.email,
+    }
+
+    resp = client.post(
+        "/user",
+        json=payload,
+    )
+
+    assert resp.status_code == HTTPStatus.CONFLICT

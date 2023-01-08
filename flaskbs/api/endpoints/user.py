@@ -4,6 +4,7 @@ from typing import Any
 from flask import Blueprint, abort
 from flask_pydantic import validate
 from flask_restful import Api, Resource
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.future import select
 
 from flaskbs.db import db
@@ -33,7 +34,10 @@ class UserPostResource(Resource):
 
         user = User(username=username, email=email)
         db.session.add(user)
-        db.session.commit()
+        try:
+            db.session.commit()
+        except IntegrityError:
+            abort(HTTPStatus.CONFLICT, description="User already exists (duplicate name)")
 
         return {}
 

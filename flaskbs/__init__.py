@@ -27,7 +27,11 @@ def create_app(testing: bool = False) -> Flask:
 
     # custom error handlers
     @app.errorhandler(HTTPStatus.NOT_FOUND)
-    def resource_not_found(e: Exception) -> tuple[Response, HTTPStatus]:
+    def not_found_error(e: Exception) -> tuple[Response, HTTPStatus]:
         return jsonify(error=str(e)), HTTPStatus.NOT_FOUND
+
+    @app.errorhandler(HTTPStatus.CONFLICT)
+    def conflict_error(e: Exception) -> tuple[Response, HTTPStatus]:
+        return jsonify(error=str(e)), HTTPStatus.CONFLICT
 
     return app
