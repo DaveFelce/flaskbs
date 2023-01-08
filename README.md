@@ -9,9 +9,10 @@
 
 ### api run
 
+- `flask db upgrade`
 - `poetry run python -m flask run --host=0.0.0.0`
 
 ## Docker
 
-- docker-compose -f .docker/development/docker-compose.yml up
+- `docker-compose -f .docker/development/docker-compose.yml up --build`
 
