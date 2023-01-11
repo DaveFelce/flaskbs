@@ -37,7 +37,7 @@ def test_post_user(client: FlaskClient, db_session: scoped_session) -> None:
     user = db_session.execute(select(User).where(User.username == username)).scalar_one()
     assert user.email == email
 
-    assert resp.status_code == HTTPStatus.OK
+    assert resp.status_code == HTTPStatus.ACCEPTED
 
 
 def test_post_duplicate_user(client: FlaskClient, db_session: scoped_session, user: User) -> None:
