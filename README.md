@@ -1,3 +1,5 @@
+# Flask bootstrap
+
 ## configurations
 
 - create a `local.env` file in the root directory
@@ -9,7 +11,7 @@
 
 ### api run
 
-- `flask db upgrade`
+- `poetry run flask db upgrade`
 - `poetry run python -m flask run --host=0.0.0.0`
 
 
