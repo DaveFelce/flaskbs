@@ -39,7 +39,7 @@ class UserPostResource(Resource):
         except IntegrityError:
             abort(HTTPStatus.CONFLICT, description="User already exists (duplicate name)")
 
-        return {}, HTTPStatus.ACCEPTED
+        return {}
 
 
 api.add_resource(UserPostResource, "/user")
